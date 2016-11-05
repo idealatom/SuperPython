@@ -1,3 +1,4 @@
+import re
 import sublime
 import sublime_plugin
 
@@ -43,6 +44,9 @@ class PythonSuperComplete(sublime_plugin.EventListener):
 
         if ',' in args:
             self_name, other_args = args.split(',', 1)
+            # replace default arguments to real ones
+            p = re.compile(r'\b(\w+)=(\w+)\b')
+            other_args = p.sub(r'\1=\1', other_args)
         else:
             self_name = args
             other_args = ''
